@@ -8,18 +8,6 @@ from datetime import datetime
 import time
 import random
 
-# define & generate the title of the earning-dtail_number.csv
-f_earning_num = open('./earnings-detail_number-of-estimates-changed.csv','w')
-f_earning_num.write('symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary')
-
-# define & generate the title of the earning_quarterly.csv
-f_earning_quarterly = open('./earnings-detail_quarterly-earnings-forecast.csv','w')
-f_earning_quarterly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
-
-# define & generate the title of the earning_quarterly.csv
-f_earning_yearly = open('./earnings-detail_yearly-earnings-forecast.csv','w')
-f_earning_yearly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
-
 # retrieve proxy IP addresses from best-private-proxies.txt file
 proxies = open("best-private-proxies.txt", "rt")
 proxy = proxies.read()         
@@ -27,7 +15,18 @@ proxies.close()
 proxy_list = proxy.split("\n")
 
 def earning_details():
-  
+  # define & generate the title of the earning-dtail_number.csv
+  f_earning_num = open('./earnings-detail_number-of-estimates-changed.csv','w')
+  f_earning_num.write('symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary')
+
+  # define & generate the title of the earning_quarterly.csv
+  f_earning_quarterly = open('./earnings-detail_quarterly-earnings-forecast.csv','w')
+  f_earning_quarterly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
+
+  # define & generate the title of the earning_quarterly.csv
+  f_earning_yearly = open('./earnings-detail_yearly-earnings-forecast.csv','w')
+  f_earning_yearly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
+
   flag=0
   # get proxy_ip
   random_index = random.randint(0, len(proxy_list))
@@ -50,12 +49,12 @@ def earning_details():
   earnings=soup(earning_detail, 'html.parser')
 
   # get Number of Estimates Changed
-  number_of_estimates=earnings.findAll('tr',{'class','estimate-momentum__row estimate-momentum__row--body'})
+  number_of_estimates=earnings.findAll('tr',{'class':'estimate-momentum__row estimate-momentum__row--body'})
   
   symbol_id='342'
   universal_site_symbol='US_XNAS_AAPL'
-  site_symbol=earnings.find('span', {'class','symbol-page-header__symbol'}).text
-  summary=earnings.find('p',{'class','estimate-momentum__section estimate-momentum__info'}).text
+  site_symbol=earnings.find('span', {'class':'symbol-page-header__symbol'}).text
+  summary=earnings.find('p',{'class':'estimate-momentum__section estimate-momentum__info'}).text
   now = datetime.now()
   timestamp= now.strftime("%Y-%m-%d-%H-%M")
 
@@ -72,7 +71,7 @@ def earning_details():
     f_earning_num.write(symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+estimate_changed+','+number_estimates_changed)
       
   # get detail_quarterly
-  quarterly_forecast=earnings.findAll('tr',{'class','earnings-forecast__row earnings-forecast__row--body'})
+  quarterly_forecast=earnings.findAll('tr',{'class':'earnings-forecast__row earnings-forecast__row--body'})
   for quarterly in quarterly_forecast:
     fiscal_year_end=quarterly.th.text
     quarterly_td=quarterly.findAll('td')
@@ -124,14 +123,17 @@ def revenue_eps():
 
   symbol_id='342'
   universal_site_symbol='US_XNAS_AAPL'
-  site_symbol=revenues.find('span', {'class','symbol-page-header__symbol'}).text
+  site_symbol=revenues.find('span', {'class':'symbol-page-header__symbol'}).text
   now = datetime.now()
   timestamp= now.strftime("%Y-%m-%d-%H-%M")
 
   # get revenues
   year_revenues=revenues.findAll('th',{'class':'revenue-eps__table-heading'})
   revenue_print=''
+
   for year_revenue in year_revenues:
+    k=0
+    revenue_num=0
     revenue_eps_row=revenues.findAll('tr',{'class':'revenue-eps__row'})
     revenue_year=''
     revenue_item=[]
@@ -146,27 +148,67 @@ def revenue_eps():
         revenue_year=revenue_eps_row[x].th.text
         continue
       revenue_td=revenue_eps_row[x].findAll('td')
-      # revenue=revenue_td[0].text
-      # eps=revenue_td[1].text
-      # dividends=revenue_td[2].text
+      revenue_num=len(revenue_td)
       revenue_print=symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+year_revenue.text+','+revenue_year
       revenue_list=[]
       for y in range(len(revenue_td)):
         revenue_list.append(revenue_td[y].text)
       revenue_item.append(revenue_list)
+      k+=1
 
-    for a in range(len(revenue_eps_row)-6):
-      revenue_result=''
-      for b in range(len(revenue_eps_row[a].findAll('td'))):
-        revenue_result+=revenue_print+revenue_item[b][a]
-      print(revenue_result)
-
+    for a in range(revenue_num):
+      revenue_result=revenue_print
+      for b in range(k):
+          revenue_result+=revenue_item[b][a]
+          if b%3==2:
+            print(revenue_result+'\n')
+            revenue_result=revenue_print
       # for y in range(len(revenue_td)-1):
       #   revenue_print+=revenue_td[y].text
       # print(revenue_print)
-      
+def analyst_research():
+  f=open('./analyst-research.csv','w')
+  f.write('symbol_id,universal_site_symbol,site_symbol,timestamp,rating,analysts_rating,price_target,analysts_price_target,,analyst_firm_2,analyst_firm_3,analyst_firm_4,analyst_firm_5,analyst_firm_6,analyst_firm_7,analyst_firm_8,analyst_firm_9,analyst_firm_10,analyst_firm_11')
+  # get proxy_ip
+  random_index = random.randint(0, len(proxy_list)-1)
+  proxy_ip=get_proxies(random_index)
+
+  # set proxy & option
+  options = Options()
+  options.add_argument("--prox-server=%s" % proxy_ip)
+  options.add_argument("--window-size=1466,868")
+  options.add_argument("--disable-notifications")
+  options.add_argument("--lang=en")
+
+  # run chromdriver
+  driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+  time.sleep(5)
+  driver.get('https://www.nasdaq.com/market-activity/stocks/aapl/analyst-research')
+
+  time.sleep(15)
+  anlyst_detail=driver.page_source
+  anlysts=soup(anlyst_detail, 'html.parser')   
+  time.sleep(5)
+  symbol_id='342'
+  universal_site_symbol='US_XNAS_AAPL'
+  now = datetime.now()
+  timestamp= now.strftime("%Y-%m-%d-%H-%M")
+  site_symbol=anlysts.find('span', {'class':'symbol-page-header__symbol'}).text
+  rating=anlysts.find('span', {'class':'upgrade-downgrade-b__rating-value'}).text
+  analysts_rating=anlysts.find('p', {'class':'upgrade-downgrade-b__overview'}).text
+  price_target=anlysts.find('div', {'class':'analyst-target-price__price'}).text
+  analysts_price_target=anlysts.find('p', {'class':'analyst-target-price__description'}).text
+  analyst_firms=anlysts.find('div', {'class':'upgrade-downgrade-b__analyst-firms__container'}).findAll('li')
+  print(symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+rating+','+analysts_rating+','+price_target+','+analysts_price_target+','+analyst_firms[0].text+','+analyst_firms[1].text+','+analyst_firms[2].text+','+analyst_firms[3].text+','+analyst_firms[4].text+','+analyst_firms[5].text+','+analyst_firms[6].text+','+analyst_firms[7].text+','+analyst_firms[8].text+','+analyst_firms[9].text+','+analyst_firms[10].text)
+  f.write('\n')
+  f.write(symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+rating+','+analysts_rating+','+price_target+','+analysts_price_target+','+analyst_firms[0].text+','+analyst_firms[1].text+','+analyst_firms[2].text+','+analyst_firms[3].text+','+analyst_firms[4].text+','+analyst_firms[5].text+','+analyst_firms[6].text+','+analyst_firms[7].text+','+analyst_firms[8].text+','+analyst_firms[9].text+','+analyst_firms[10].text)
+def earning_price():
+
+
 def get_proxies(index): 
+  
   return proxy_list[index]
 
 # earning_details()
-revenue_eps()
+# revenue_eps()
+# analyst_research()
