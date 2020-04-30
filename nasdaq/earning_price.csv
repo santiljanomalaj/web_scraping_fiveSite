@@ -1,0 +1,12 @@
+symbol_id,universal_site_symbol,site_symbol,timestamp,ratio_category,value
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Price/Earnings Ratio,2019 Actual,24.2
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Price/Earnings Ratio,2020 Estimates,24.12
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Price/Earnings Ratio,2021 Estimates,19.08
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Price/Earnings Ratio,2022 Estimates,17.26
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Forecast P/E Growth Rates,Growth 2020,0.34
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Forecast P/E Growth Rates,Growth 2021,26.38
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Forecast P/E Growth Rates,P/E Ratios 2020,24.12
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,Forecast P/E Growth Rates,P/E Ratios 2021,19.08
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-15,
+        PEG Ratio
+      ,Forecast 12 Month Forward PEG Ratio,2.26

@@ -1,1 +1,9 @@
 symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Sep 2020,11.93,13.1,13.1,10.24,11,0,8
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Sep 2021,15.08,16.8,16.8,13.73,11,2,6
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Sep 2022,16.67,18.17,18.17,15.54,3,0,0
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Mar 2020,2.09,2.53,2.53,1.52,9,1,5
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Jun 2020,1.93,2.46,2.46,1.27,8,0,5
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Sep 2020,2.88,3.24,3.24,2.58,8,0,1
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Dec 2020,5.26,6.22,6.22,4.69,5,0,0
+342,US_XNAS_AAPL,AAPL,2020-04-30-12-20,Mar 2021,3.23,3.7,3.7,2.84,5,0,0
