@@ -16,16 +16,16 @@ proxy_list = proxy.split("\n")
 
 def earning_details():
   # define & generate the title of the earning-dtail_number.csv
-  f_earning_num = open('./earnings-detail_number-of-estimates-changed.csv','w', encoding='utf-8')
-  f_earning_num.write('symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary')
+  f_earning_num = open('./result/earnings-detail_number-of-estimates-changed.csv','w', encoding='utf-8')
+  f_earning_num.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary')
 
   # define & generate the title of the earning_quarterly.csv
-  f_earning_quarterly = open('./earnings-detail_quarterly-earnings-forecast.csv','w', encoding='utf-8')
-  f_earning_quarterly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
+  f_earning_quarterly = open('./result/earnings-detail_quarterly-earnings-forecast.csv','w', encoding='utf-8')
+  f_earning_quarterly.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
 
   # define & generate the title of the earning_quarterly.csv
-  f_earning_yearly = open('./earnings-detail_yearly-earnings-forecast.csv','w', encoding='utf-8')
-  f_earning_yearly.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
+  f_earning_yearly = open('./result/earnings-detail_yearly-earnings-forecast.csv','w', encoding='utf-8')
+  f_earning_yearly.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year_end,consensus_eps*_forecast,high_eps*_forecast,low_eps*_forecast,number_of_estimates,over_the_last_4_weeks_number_of_revisions_-_up,over_the_last_4_weeks_number_of_revisions_-_down')
 
   flag=0
   # get proxy_ip
@@ -101,8 +101,8 @@ def earning_details():
     f_earning_yearly.write(symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+yearly_fiscal_year_end+','+yearly_consensus_eps+','+yearly_high_eps+','+yearly_low_eps+','+yearly_number_of_estimate+','+yearly_number_revision_up+','+yearly_number_revision_down)
 def revenue_eps():
 
-  f=open('./revenue_eps.csv','w')
-  f.write('symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year,fiscal_quarter,revenue,eps,dividends')
+  f=open('./result/revenue_eps.csv','w')
+  f.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,fiscal_year,fiscal_quarter,revenue,eps,dividends')
 
   # get proxy_ip
   random_index = random.randint(0, len(proxy_list)-1)
@@ -120,62 +120,60 @@ def revenue_eps():
   
   driver.get('https://www.nasdaq.com/market-activity/stocks/coke/revenue-eps')
 
-  try:
-    driver.find_element_by_xpath('/html/body/div[4]/div/main/div/div[5]/div[2]/div/div[1]/div/div[1]/div/div[2]/button[1]').click()
-  except NoSuchElementException:
-    pass
+  for i in range(7):
+    time.sleep(10)
+    revenue_detail=driver.page_source
+    revenues=soup(revenue_detail, 'html.parser')
 
-  time.sleep(10)
-  revenue_detail=driver.page_source
-  revenues=soup(revenue_detail, 'html.parser')
+    symbol_id='342'
+    universal_site_symbol='US_XNAS_AAPL'
+    site_symbol=revenues.find('span', {'class':'symbol-page-header__symbol'}).text
+    now = datetime.now()
+    timestamp= now.strftime("%Y-%m-%d-%H-%M")
 
-  symbol_id='342'
-  universal_site_symbol='US_XNAS_AAPL'
-  site_symbol=revenues.find('span', {'class':'symbol-page-header__symbol'}).text
-  now = datetime.now()
-  timestamp= now.strftime("%Y-%m-%d-%H-%M")
+    # get revenues
+    year_revenues=revenues.findAll('th',{'class':'revenue-eps__table-heading'})
+    revenue_print=''
 
-  # get revenues
-  year_revenues=revenues.findAll('th',{'class':'revenue-eps__table-heading'})
-  revenue_print=''
-
-  for a in range(len(year_revenues)):
-    k=0
-    l=1
-    revenue_num=0
-    revenue_eps_row=revenues.findAll('tr',{'class':'revenue-eps__row'})
-    revenue_year=[]
-    revenue_item=[]
-    revenue_list=[]
-    if a==0:
-      continue
-    for x in range(len(revenue_eps_row)):
-      if x==0:
-        continue
-      if x%4==1:
-        revenue_year.append(revenue_eps_row[x].th.text)
-        continue
-      revenue_td=revenue_eps_row[x].findAll('td')
-      revenue_num=len(revenue_td)
-      revenue_print=symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+year_revenues[a].text
+    for a in range(len(year_revenues)):
+      k=0
+      l=1
+      revenue_num=0
+      revenue_eps_row=revenues.findAll('tr',{'class':'revenue-eps__row'})
+      revenue_year=[]
+      revenue_item=[]
       revenue_list=[]
-      for y in range(len(revenue_td)):
-        revenue_list.append(revenue_td[y].text)
-      revenue_item.append(revenue_list)
-      k+=1
-    if(a>0):
-      revenue_result=revenue_print+','+revenue_year[0]
-      for b in range(k):
-          revenue_result+=','+revenue_item[b][a-1]
-          if b%3==2:
-            print(revenue_result+'\n')
-            f.write('\n')
-            f.write(revenue_result)
-            revenue_result=revenue_print+','+revenue_year[l%5]
-            l+=1
+      if a==0:
+        continue
+      for x in range(len(revenue_eps_row)):
+        if x==0:
+          continue
+        if x%4==1:
+          revenue_year.append(revenue_eps_row[x].th.text)
+          continue
+        revenue_td=revenue_eps_row[x].findAll('td')
+        revenue_num=len(revenue_td)
+        revenue_print=symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+year_revenues[a].text
+        revenue_list=[]
+        for y in range(len(revenue_td)):
+          revenue_list.append(revenue_td[y].text)
+        revenue_item.append(revenue_list)
+        k+=1
+      if(a>0):
+        revenue_result=revenue_print+','+revenue_year[0]
+        for b in range(k):
+            revenue_result+=','+revenue_item[b][a-1]
+            if b%3==2:
+              print(revenue_result+'\n')
+              f.write('\n')
+              f.write(revenue_result)
+              revenue_result=revenue_print+','+revenue_year[l%5]
+              l+=1
+    time.sleep(200)
+    driver.find_element_by_xpath('/html/body/div[4]/div/main/div/div[5]/div[2]/div/div[1]/div/div[1]/div/div[2]/button[1]').click()
 def analyst_research():
-  f=open('./analyst-research.csv','w')
-  f.write('symbol_id,universal_site_symbol,site_symbol,timestamp,rating,analysts_rating,price_target,analysts_price_target,,analyst_firm_2,analyst_firm_3,analyst_firm_4,analyst_firm_5,analyst_firm_6,analyst_firm_7,analyst_firm_8,analyst_firm_9,analyst_firm_10,analyst_firm_11')
+  f=open('./result/analyst-research.csv','w')
+  f.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,rating,analysts_rating,price_target,analysts_price_target,,analyst_firm_2,analyst_firm_3,analyst_firm_4,analyst_firm_5,analyst_firm_6,analyst_firm_7,analyst_firm_8,analyst_firm_9,analyst_firm_10,analyst_firm_11')
   # get proxy_ip
   random_index = random.randint(0, len(proxy_list)-1)
   proxy_ip=get_proxies(random_index)
@@ -209,8 +207,8 @@ def analyst_research():
   f.write('\n')
   f.write(symbol_id+','+universal_site_symbol+','+site_symbol+','+timestamp+','+rating+','+analysts_rating+','+price_target+','+analysts_price_target+','+analyst_firms[0].text+','+analyst_firms[1].text+','+analyst_firms[2].text+','+analyst_firms[3].text+','+analyst_firms[4].text+','+analyst_firms[5].text+','+analyst_firms[6].text+','+analyst_firms[7].text+','+analyst_firms[8].text+','+analyst_firms[9].text+','+analyst_firms[10].text)
 def earning_price():
-  f=open('./earning_price.csv','w')
-  f.write('symbol_id,universal_site_symbol,site_symbol,timestamp,ratio_category,value')
+  f=open('./result/earning_price.csv','w')
+  f.write('./result/symbol_id,universal_site_symbol,site_symbol,timestamp,ratio_category,value')
   # get proxy_ip
   random_index = random.randint(0, len(proxy_list)-1)
   proxy_ip=get_proxies(random_index)
