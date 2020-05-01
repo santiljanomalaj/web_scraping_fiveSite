@@ -1,67 +1,24 @@
-###############################################################################
-# Nasdaq Settings File
-
-
-###############################################################################
 # Specify input path
+./input_list.csv
 
-proxypath C:\Users\Public\Downloads\input.csv
-
-
-###############################################################################
 # Specify the number of symbols to run simultaneously
-# 
+40
 
-symbolsperexecution 40
-
-
-###############################################################################
-# Specify the scrapers to enable
-# 
-
-
+# specify scraper to enable
 earnings
 revenue-eps
 analyst-research
-# price-earnings-peg-ratios
+price-earnings-peg-ratios
 
-###############################################################################
 # Specify proxy/socks rotation method
-# hybrid, enabled, disabled
+enabled
 
-proxyrotation hybrid
-
-
-###############################################################################
 # Specify proxy/socks path
 
-proxypath C:\Users\Public\Downloads\proxies.txt
+./best-private-proxies.txt
 
-
-###############################################################################
-# Specify proxy timeout and retry settings
-# 
-
-proxy-timeout 15
-proxy-retries 5
-mainconnection-timeout 10
-mainconnection-retries 3
-
-
-###############################################################################
 # Specify the data output directory
-# 
+./result/
 
-C:\Users\Public\Downloads\Stock_Data_Aggregator
-
-
-###############################################################################
 # Specify the log output directory
-# 
-
-C:\Users\Public\Downloads\
-
-
-###############################################################################
-
-
+/logs/

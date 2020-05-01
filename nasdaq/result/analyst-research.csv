@@ -1,8 +1,1 @@
-symbol_id,universal_site_symbol,site_symbol,timestamp,rating,analysts_rating,price_target,analysts_price_target,,analyst_firm_2,analyst_firm_3,analyst_firm_4,analyst_firm_5,analyst_firm_6,analyst_firm_7,analyst_firm_8,analyst_firm_9,analyst_firm_10,analyst_firm_11
-342,US_XNAS_AAPL,AAPL,2020-04-30-12-18,Strong Buy,Based on 11 analysts offering recommendations for aapl in the last 3 months.,$0.00,
-        Based on  analysts offering 12 month price targets for AAPL in the last 3 months.
-        The average price target is $0.00
-        with a high estimate of $0.00
-        and a low estimate of $0.00.
-        Sign in to your SmartPortfolio to see more analyst recommendations.
-,B OF A GLBL RES,BAIRD R W,COWEN & COMPANY,EDWARD JONES,JEFFERIES & CO.,JP MORGAN SECUR,MORGAN STANLEY,OPPENHEIMER HLD,PIPER SANDLER,RAYMOND JAMES,WEDBUSH SECURIT
+./result/symbol_id,universal_site_symbol,site_symbol,timestamp,rating,analysts_rating,price_target,analysts_price_target,,analyst_firm_2,analyst_firm_3,analyst_firm_4,analyst_firm_5,analyst_firm_6,analyst_firm_7,analyst_firm_8,analyst_firm_9,analyst_firm_10,analyst_firm_11

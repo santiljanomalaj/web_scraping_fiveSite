@@ -1,4 +1,8 @@
-symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary
-342,US_XNAS_AAPL,AAPL,2020-04-30-12-20, , ,
-
-342,US_XNAS_AAPL,AAPL,2020-04-30-12-20, , 
+./result/symbol_id,universal_site_symbol,site_symbol,timestamp,estimate_changed,number_of_estimates_changed,summary
+342,US_XNAS_AAPL,AAPL,2020-05-01-12-17,Fiscal QE Jun 2020 Down,5,Estimate Momentum measures change in analyst sentiment over time and may be an indicator of future price movements. The Change in Consensus chart shows the current, 1 week ago, and 1 month ago consensus earnings per share (EPS*) forecasts.
+ For the fiscal quarter endingJun 2020 , the consensus EPS* forecast has remained the same over the past week at 1.93 and decreased over the past month from 2.23 to 1.93(13.45%). Of the 5 analysts making quarterly forecasts, none raised and 0 lowered their forecast.
+ For the fiscal year ending Sep 2020 , the consensus EPS* forecast has decreased over the past week from 12.16 to 11.93(1.93) and decreased over the past month from 12.66 to 12.16(3.95%). Of the 8 analysts making yearly forecasts, none raised and 8 lowered their forecast.
+342,US_XNAS_AAPL,AAPL,2020-05-01-12-17,Fiscal QE Jun 2020 Down,5
+342,US_XNAS_AAPL,AAPL,2020-05-01-12-17,Fiscal QE Jun 2020 Up,0
+342,US_XNAS_AAPL,AAPL,2020-05-01-12-17,Fiscal YR Sep 2020 Down,8
+342,US_XNAS_AAPL,AAPL,2020-05-01-12-17,Fiscal YR Sep 2020 Up,0
